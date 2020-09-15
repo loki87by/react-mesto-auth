@@ -1,0 +1,25 @@
+.signform__input {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  margin-top: 38px;
+  color: #CCCCCC;
+  padding: 0;
+  border: none;
+  border-bottom: 2px solid #CCCCCC;
+  background-color: #000;
+}
+
+@media (max-width: 904px) {
+  .signform__input {
+    margin-top: 30px;
+  }
+}
+
+@media (max-width: 358px) {
+  .signform__input {
+    font-size: 14px;
+    line-height: 17px;
+  }
+}

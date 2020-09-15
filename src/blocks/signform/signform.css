@@ -1,0 +1,27 @@
+@import url('./__text/signform__text.css');
+@import url('./__input/signform__input.css');
+@import url('./__submit/signform__submit.css');
+@import url('./__link/signform__link.css');
+
+.signform {
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  max-width: 358px;
+  max-height: max-content;
+  margin-bottom: 484px;
+}
+
+@media (max-width: 904px) {
+  .signform {
+    padding-top: 10px;
+  }
+}
+
+@media (max-width: 358px) {
+  .signform {
+    padding-top: 0px;
+    max-width: 260px;
+  }
+}

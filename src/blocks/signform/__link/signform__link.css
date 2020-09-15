@@ -1,0 +1,21 @@
+.signform__link {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  color: #FFFFFF;
+  margin: 15px auto;
+}
+
+@media (max-width: 904px) {
+  .signform__link {
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 358px) {
+  .signform__link {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}
