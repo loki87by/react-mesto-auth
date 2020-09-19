@@ -7,7 +7,7 @@ function InfoTooltip(props) {
   return (
     <PopupWithForm name="infoTooltip" title="" submitText="" isOpen={props.isOpen} onClose={props.onClose} children={
       <>
-        <img src={errorPic} class="popup__result" alt="" />
+        <img src={errorPic} class="popup__result" alt="Ошибка" />
         <h1 class="popup__caption">Что-то пошло не так! Попробуйте еще раз.</h1>
       </>}
     />

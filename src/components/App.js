@@ -39,6 +39,8 @@ function App() {
     email: "",
     _id: ""
   });
+
+  //**хуки
   const history = useHistory();
 
   //**функции
@@ -74,6 +76,7 @@ function App() {
     setSelectedCard(false)
     setDataImage({})
     setConfirmPopupOpen(false)
+    setInfoTooltipOpen(false)
     setCreateLoading("Создать")
     setSaveLoading("Сохранить")
   }
@@ -160,15 +163,7 @@ function App() {
     })
   }
 
-  //*функции аутентификации и авторизации
-  /*function onRegister({ email, password }) {
-    return Auth.register(email, password)
-    .then((res) => {
-      if(res.status !== 400) {
-        
-      }
-    })
-  }*/
+  //**функции аутентификации и авторизации
   React.useEffect(() => {
     tokenCheck();
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -182,11 +177,9 @@ function App() {
       let jwt = localStorage.getItem('jwt');
       Auth.getContent(jwt)
       .then((res) => {
-        //if (data) {
-          setUserData(res.data);
-          setLoggedIn(true);
-          history.push('/');
-        //}
+        setUserData(res.data);
+        setLoggedIn(true);
+        history.push('/');
       })
       .catch ((err) => console.log(err));
     }
@@ -201,7 +194,7 @@ function App() {
         <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onUpdatePlace={handleUpdatePlace} onLoad={createLoader} isLoading={isCreateLoading} />
         <ConfirmPopup isOpen={isConfirmPopupOpen} onClose={closeAllPopups} onSubmit={ConfirmDelete} name="popupConfirm" title="Вы уверены?" submitText="Да" />
         <ImagePopup isOpen={selectedCard} onClose={closeAllPopups} card={dataImage}/>
-        <InfoTooltip isOpen={isInfoTooltipOpen} onClose={closeAllPopups} onLoad={saveLoader} isLoading={isSaveLoading} />
+        <InfoTooltip isOpen={isInfoTooltipOpen} onClose={closeAllPopups} />
         <div className="page">
           <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} userData={userData} />
           <main className="content">

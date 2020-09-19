@@ -8,7 +8,8 @@ function ConfirmPopup(props) {
   }
 
   return (
-    <PopupWithForm name="popupConfirm" title="Вы уверены?" submitText="Да" isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit} />);
+    <PopupWithForm name="popupConfirm" title="Вы уверены?" isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit} children={
+    <button type="submit" className="popup__button popup__button_type_save">Да</button>}/>);
 }
   
 export default ConfirmPopup;

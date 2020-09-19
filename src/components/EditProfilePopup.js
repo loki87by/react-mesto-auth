@@ -29,10 +29,11 @@ function EditProfilePopup(props) {
   }
 
   return (
-    <PopupWithForm isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit} name="editProfile" title="Редактировать профиль" onLoad={props.onLoad} submitText={props.isLoading} children={
+    <PopupWithForm isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit} name="editProfile" title="Редактировать профиль" onLoad={props.onLoad} children={
       <>
       <input type="text" value={name || ''} onChange={handleNameChange} required className="popup__text popup__text_type_name" id="name-input" name="name" pattern="[A-Za-zА-Яа-яЁё -]*" minLength="2" maxLength="40"/>
       <input type="text" value={description || ''} onChange={handleDescriptionChange} required className="popup__text popup__text_type_activity" id="activity-input" name="link" minLength="2" maxLength="200"/>
+      <button type="submit" className="popup__button popup__button_type_save">{props.isLoading}</button>
       </>}
     />
   );
