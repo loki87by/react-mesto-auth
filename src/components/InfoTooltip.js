@@ -14,8 +14,8 @@ function InfoTooltip(props) {
   return (
     <PopupWithForm name="infoTooltip" title="" submitText="" isOpen={props.isOpen} onClose={props.onClose} children={
       <>
-        <img src={props.image} class="popup__result" alt="" />
-        <h1 class="popup__caption">{props.text}</h1>
+        <img src={props.image} className="popup__result" alt="" />
+        <h1 className="popup__caption">{props.text}</h1>
       </>}
     />
   );
