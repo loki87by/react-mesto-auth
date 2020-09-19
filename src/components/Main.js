@@ -1,19 +1,28 @@
 import React from 'react';
+import Card from './Card';
 import {CurrentUserContext} from '../contexts/CurrentUserContext';
 
 function Main(props) {
   const currentUser = React.useContext(CurrentUserContext);
   return (
-    <div className="profile">
-      <div className="profile__info">
-        <img className="profile__photo" src={currentUser.avatar} alt="аватар" />
-        <div className="profile__photo profile__photo_change" onClick={props.onEditAvatar}></div>
-        <h1 className="profile__title">{currentUser.name}</h1>
-        <button className="profile__button profile__button_type_edit" type="button" onClick={props.onEditProfile}></button>
-        <p className="profile__subtitle">{currentUser.about}</p>
+    <>
+      <div className="profile">
+        <div className="profile__info">
+          <img className="profile__photo" src={currentUser.avatar} alt="аватар" />
+          <div className="profile__photo profile__photo_change" onClick={props.onEditAvatar}></div>
+          <h1 className="profile__title">{currentUser.name}</h1>
+          <button className="profile__button profile__button_type_edit" type="button" onClick={props.onEditProfile}></button>
+          <p className="profile__subtitle">{currentUser.about}</p>
+        </div>
+        <button className="profile__button profile__button_type_add" type="button" onClick={props.onAddPlacePopup}></button>
       </div>
-      <button className="profile__button profile__button_type_add" type="button" onClick={props.onAddPlacePopup}></button>
-    </div>
+      <div className="cards">
+        {props.cards.map((card) => (
+          <Card key={card._id} card={card} onCardCick={props.onCardClick} onCardLike={props.onCardLike}
+          onCardDelete={props.onCardDelete}/>
+        ))}
+      </div>
+    </>
   );
 }
   

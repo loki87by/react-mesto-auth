@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useHistory} from 'react-router-dom';
 import * as Auth from '../Auth';
+//import auth from '../auth2';
 
 function Login(props) {
   const [email, setEmail] = React.useState('');
@@ -12,9 +13,9 @@ function Login(props) {
     Auth.login(email, password)
     .then((data) => {
       if (!data){
-        return console.log('Что-то пошло не так')
+        /*return console.log('Что-то пошло не так')
       }
-      if (data.jwt) {
+      if (data.jwt) {*/
         setEmail('');
         setPassword('');
         props.onLogin();

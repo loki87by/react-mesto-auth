@@ -26,7 +26,7 @@ function Card(props) {
   return (
     <template id="card" className="card">
       <button className="card__delete" style={cardDeleteButtonVisible} onClick={handleDeleteClick} type="reset" aria-label="Удалить"></button>
-      <img className="card__image" onClick={handleClick} src={props.card.link} alt={props.card.name} />
+      <img className="card__image" onClick={handleClick} data-name="" src={props.card.link} alt={props.card.name} />
       <div className="card__bottom">
         <h2 className="card__title">{props.card.name}</h2>
         <button className={cardLikeButtonClassName} onClick={handleLikeClick} type="button" aria-label="Мне нравится"></button>

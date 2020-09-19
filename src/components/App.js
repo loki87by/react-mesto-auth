@@ -5,6 +5,7 @@ import Footer from './Footer';
 import Login from './Login';
 import Register from './Register';
 import * as Auth from '../Auth';
+//import Auth from '../Auth';
 //import PopupWithForm from './PopupWithForm';
 import EditAvatarPopup from './EditAvatarPopup';
 import EditProfilePopup from './EditProfilePopup';
@@ -12,7 +13,8 @@ import AddPlacePopup from './AddPlacePopup';
 import ImagePopup from './ImagePopup';
 import ConfirmPopup from './ConfirmPopup';
 import api from '../utils/Api';
-import Card from './Card';
+import InfoTooltip from './InfoTooltip';
+//import Card from './Card';
 import ProtectedRoute from './ProtectedRoute';
 import {CurrentUserContext} from '../contexts/CurrentUserContext';
 import '../index.css';
@@ -23,6 +25,7 @@ function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
+  const [isInfoTooltipOpen, setInfoTooltipOpen] = React.useState(false);
   const [isConfirmPopupOpen, setConfirmPopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(false);
   const [dataImage, setDataImage] = React.useState({link: '', name: ''});
@@ -32,7 +35,10 @@ function App() {
   const [isCreateLoading, setCreateLoading] = React.useState("Создать");
   const [cardDelete, selectCardDelete] = React.useState({});
   const [loggedIn, setLoggedIn] = React.useState(false);
-  const [userData, setUserData] = React.useState({});
+  const [userData, setUserData] = React.useState({
+    email: "",
+    _id: ""
+  });
   const history = useHistory();
 
   //**функции
@@ -49,6 +55,9 @@ function App() {
   function handleCardClick(props) {
     setSelectedCard(true);
     setDataImage(props)
+  };
+  function handleInfoTooltip() {
+    setInfoTooltipOpen(true);
   };
   //*функции смены текста сабмита
   function createLoader() {
@@ -162,6 +171,7 @@ function App() {
   }*/
   React.useEffect(() => {
     tokenCheck();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedIn])
 
   function handleLogin() {
@@ -171,19 +181,17 @@ function App() {
     if (localStorage.getItem('jwt')) {
       let jwt = localStorage.getItem('jwt');
       Auth.getContent(jwt)
-      .then((data) => {
-        if (data) {
-          setUserData({
-            _id: data._id,
-            email: data.email
-          });
+      .then((res) => {
+        //if (data) {
+          setUserData(res.data);
           setLoggedIn(true);
           history.push('/');
-        }
+        //}
       })
       .catch ((err) => console.log(err));
     }
   }
+  
   //*DOM
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -193,8 +201,9 @@ function App() {
         <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onUpdatePlace={handleUpdatePlace} onLoad={createLoader} isLoading={isCreateLoading} />
         <ConfirmPopup isOpen={isConfirmPopupOpen} onClose={closeAllPopups} onSubmit={ConfirmDelete} name="popupConfirm" title="Вы уверены?" submitText="Да" />
         <ImagePopup isOpen={selectedCard} onClose={closeAllPopups} card={dataImage}/>
+        <InfoTooltip isOpen={isInfoTooltipOpen} onClose={closeAllPopups} onLoad={saveLoader} isLoading={isSaveLoading} />
         <div className="page">
-          <Header loggedIn={loggedIn} userData={userData} />
+          <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} userData={userData} />
           <main className="content">
             <Switch>
               <ProtectedRoute
@@ -204,12 +213,13 @@ function App() {
                 onEditAvatar={handleEditAvatarClick}
                 onEditProfile={handleEditProfileClick}
                 onAddPlacePopup={handleAddPlaceClick}
-                cards={cards && cards.map((card) => (
-                    <Card key={card._id} card={card} onCardClick={handleCardClick} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/>
-                  ))}
+                cards={cards}
+                onCardLike={handleCardLike}
+                onCardDelete={handleCardDelete}
+                onCardClick={handleCardClick}
               />
               <Route path="/signup">
-                <Register />
+                <Register onShow={handleInfoTooltip} />
               </Route>
               <Route path="/signin">
                 <Login onLogin={handleLogin} />
