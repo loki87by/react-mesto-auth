@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link, useHistory} from 'react-router-dom';
 import * as Auth from '../Auth';
-//import auth from '../auth2';
 
 function Register(props) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const history = useHistory();
+
+  
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -14,6 +15,10 @@ function Register(props) {
     .then((res) => {
       if(res) {
         history.push('/signin');
+        props.passed()
+        props.onShow()
+      } else {
+        props.failed()
         props.onShow()
       }
     })
