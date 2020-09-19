@@ -5,8 +5,6 @@ import Footer from './Footer';
 import Login from './Login';
 import Register from './Register';
 import * as Auth from '../Auth';
-//import Auth from '../Auth';
-//import PopupWithForm from './PopupWithForm';
 import EditAvatarPopup from './EditAvatarPopup';
 import EditProfilePopup from './EditProfilePopup';
 import AddPlacePopup from './AddPlacePopup';
@@ -14,11 +12,14 @@ import ImagePopup from './ImagePopup';
 import ConfirmPopup from './ConfirmPopup';
 import api from '../utils/Api';
 import InfoTooltip from './InfoTooltip';
-//import Card from './Card';
 import ProtectedRoute from './ProtectedRoute';
-import {CurrentUserContext} from '../contexts/CurrentUserContext';
 import '../index.css';
+import accesPic from '../images/resOk.svg';
+import errorPic from '../images/false.svg';
+import {CurrentUserContext} from '../contexts/CurrentUserContext';
 import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
+  
+
 
 function App() {
   //**стейты
@@ -35,6 +36,8 @@ function App() {
   const [isCreateLoading, setCreateLoading] = React.useState("Создать");
   const [cardDelete, selectCardDelete] = React.useState({});
   const [loggedIn, setLoggedIn] = React.useState(false);
+  const [infoData, setInfoData] = React.useState({});
+  const [headerData, setHeaderData] = React.useState({crossLink: "/signin", linkText: "Вход"});
   const [userData, setUserData] = React.useState({
     email: "",
     _id: ""
@@ -68,6 +71,21 @@ function App() {
   function saveLoader() {
     setSaveLoading("Сохранение")
   }
+  //*функции содержимого infoTooltip
+  function failed() {
+    setInfoData({text: "Что-то пошло не так! Попробуйте еще раз.", image: errorPic})
+  }
+  function passed() {
+    setInfoData({text: "Вы успешно зарегистрировались!", image: accesPic})
+  }
+  function enterLink() {
+    setHeaderData({crossLink: "/signup", linkText: "Рега"})
+  }
+  function regLink() {
+    setHeaderData({crossLink: "/signin", linkText: "Вход"})
+  }
+
+
   //*функции закрытия попапов
   function closeAllPopups() {
     setEditAvatarPopupOpen(false)
@@ -184,7 +202,7 @@ function App() {
       .catch ((err) => console.log(err));
     }
   }
-  
+
   //*DOM
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -194,9 +212,9 @@ function App() {
         <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onUpdatePlace={handleUpdatePlace} onLoad={createLoader} isLoading={isCreateLoading} />
         <ConfirmPopup isOpen={isConfirmPopupOpen} onClose={closeAllPopups} onSubmit={ConfirmDelete} name="popupConfirm" title="Вы уверены?" submitText="Да" />
         <ImagePopup isOpen={selectedCard} onClose={closeAllPopups} card={dataImage}/>
-        <InfoTooltip isOpen={isInfoTooltipOpen} onClose={closeAllPopups} />
+        <InfoTooltip text={infoData.text} image={infoData.image} isOpen={isInfoTooltipOpen} onClose={closeAllPopups} onLoad={saveLoader} isLoading={isSaveLoading} />
         <div className="page">
-          <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} userData={userData} />
+          <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} userData={userData} crossLink={headerData.crossLink} linkText={headerData.linkText} />
           <main className="content">
             <Switch>
               <ProtectedRoute
@@ -212,10 +230,10 @@ function App() {
                 onCardClick={handleCardClick}
               />
               <Route path="/signup">
-                <Register onShow={handleInfoTooltip} />
+                <Register onShow={handleInfoTooltip} failed={failed} passed={passed} changeLink={enterLink} />
               </Route>
               <Route path="/signin">
-                <Login onLogin={handleLogin} />
+                <Login onLogin={handleLogin} changeLink={regLink} />
               </Route>
               <Route>
                 {loggedIn ? <Redirect to="/signin" /> : <Redirect to="/signup" />}

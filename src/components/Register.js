@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link, useHistory} from 'react-router-dom';
 import * as Auth from '../Auth';
-//import auth from '../auth2';
 
 function Register(props) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const history = useHistory();
+
+  
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -14,6 +15,10 @@ function Register(props) {
     .then((res) => {
       if(res) {
         history.push('/signin');
+        props.passed()
+        props.onShow()
+      } else {
+        props.failed()
         props.onShow()
       }
     })
@@ -27,7 +32,7 @@ function Register(props) {
         <input type="text" className="signform__input" onChange={e => setEmail(e.target.value)} value={email} placeholder="Email" id="email" name="email" />
         <input type="password" className="signform__input" onChange={e => setPassword(e.target.value)} value={password} placeholder="Пароль" id="password" name="password" />
         <button type="submit" className="signform__submit" onClick={handleSubmit}>Зарегестрироваться</button>
-        <Link to="/signin" className="signform__link">Уже зарегистрированы? Войти</Link>
+        <Link to="/signin" onClick={props.changeLink} className="signform__link">Уже зарегистрированы? Войти</Link>
       </form>
     </>
   )

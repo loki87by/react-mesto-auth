@@ -2,7 +2,7 @@
 import React from 'react';
 import logo from '../images/mesto.png';
 //import pageText from './Register'
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 function Header(props) {
   const history = useHistory();
@@ -15,7 +15,7 @@ function Header(props) {
     <header className="header">
       <img src={logo} className="header__logo" alt="логотип" />
       <div className="header__info">
-        <p className="header__text">{props.loggedIn ? props.userData.email : ""}</p>
+        {props.loggedIn ? <p className="header__text">{props.userData.email}</p> : <Link to={props.crossLink} className="header__text">{props.linkText}</Link>}
         {props.loggedIn ? <button onClick={signOut} className="header__text">Выйти</button> : ""}
       </div>
     </header>
