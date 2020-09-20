@@ -1,22 +1,29 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 import React from 'react';
 import logo from '../images/mesto.png';
-//import pageText from './Register'
-import { Link, useHistory } from 'react-router-dom';
+import menu from '../images/mob_menu.png';
+import { Link } from 'react-router-dom';
 
 function Header(props) {
-  const history = useHistory();
-  function signOut(){
-    localStorage.removeItem('jwt');
-    props.setLoggedIn(false)
-    history.push('/signin');
+  function changeLink() {
+    if (props.crossLink === "/signin") {
+      props.enterLink()
+    } else {
+      props.regLink()
+    }
   }
+  const mobileButton = (
+      <>
+        {props.isMenuOpen ? <button type="reset" aria-label="Закрыть" onClick={props.closeMenu} id="closeMenu" className="header__close-menu"></button> : <img src={menu} onClick={props.openMenu} className="header__mobile-menu" alt="меню" />}
+      </>)
+  
   return (
     <header className="header">
       <img src={logo} className="header__logo" alt="логотип" />
+      {props.loggedIn ? mobileButton : <Link to={props.crossLink} onClick={changeLink} className="header__text header__text_doubler">{props.linkText}</Link>}
       <div className="header__info">
-        {props.loggedIn ? <p className="header__text">{props.userData.email}</p> : <Link to={props.crossLink} className="header__text">{props.linkText}</Link>}
-        {props.loggedIn ? <button onClick={signOut} className="header__text">Выйти</button> : ""}
+        {props.loggedIn ? <p className="header__text">{props.userData.email}</p> : <Link to={props.crossLink} onClick={changeLink} className="header__text">{props.linkText}</Link>}
+        {props.loggedIn ? <button onClick={props.signOut} className="header__button">Выйти</button> : ""}
       </div>
     </header>
   );

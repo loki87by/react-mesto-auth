@@ -13,9 +13,10 @@ import ConfirmPopup from './ConfirmPopup';
 import api from '../utils/Api';
 import InfoTooltip from './InfoTooltip';
 import ProtectedRoute from './ProtectedRoute';
-import '../index.css';
 import accesPic from '../images/resOk.svg';
 import errorPic from '../images/false.svg';
+import MobileMenu from './MobileMenu';
+import '../index.css';
 import {CurrentUserContext} from '../contexts/CurrentUserContext';
 import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
   
@@ -38,6 +39,7 @@ function App() {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [infoData, setInfoData] = React.useState({});
   const [headerData, setHeaderData] = React.useState({crossLink: "/signin", linkText: "Вход"});
+  const [isMenuOpen, setMenuOpen] = React.useState(false);
   const [userData, setUserData] = React.useState({
     email: "",
     _id: ""
@@ -79,10 +81,10 @@ function App() {
     setInfoData({text: "Вы успешно зарегистрировались!", image: accesPic})
   }
   function enterLink() {
-    setHeaderData({crossLink: "/signup", linkText: "Рега"})
+    setHeaderData({crossLink: "/signup", linkText: "Регистрация"})
   }
   function regLink() {
-    setHeaderData({crossLink: "/signin", linkText: "Вход"})
+    setHeaderData({crossLink: "/signin", linkText: "Войти"})
   }
 
 
@@ -202,6 +204,19 @@ function App() {
       .catch ((err) => console.log(err));
     }
   }
+  function signOut(){
+    localStorage.removeItem('jwt');
+    setLoggedIn(false)
+    history.push('/signin');
+  }
+
+  //*функции для смартфона
+  function openMenu() {
+    setMenuOpen(true)
+  }
+  function closeMenu() {
+    setMenuOpen(false)
+  }
 
   //*DOM
   return (
@@ -214,7 +229,8 @@ function App() {
         <ImagePopup isOpen={selectedCard} onClose={closeAllPopups} card={dataImage}/>
         <InfoTooltip text={infoData.text} image={infoData.image} isOpen={isInfoTooltipOpen} onClose={closeAllPopups} onLoad={saveLoader} isLoading={isSaveLoading} />
         <div className="page">
-          <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} userData={userData} crossLink={headerData.crossLink} linkText={headerData.linkText} />
+          {loggedIn ? <MobileMenu userData={userData} isOpen={isMenuOpen} signOut={signOut} closeMenu={closeMenu} /> : ''}
+          <Header loggedIn={loggedIn} isMenuOpen={isMenuOpen} openMenu={openMenu} closeMenu={closeMenu} signOut={signOut} setLoggedIn={setLoggedIn} userData={userData} crossLink={headerData.crossLink} linkText={headerData.linkText} enterLink={enterLink} regLink={regLink} />
           <main className="content">
             <Switch>
               <ProtectedRoute

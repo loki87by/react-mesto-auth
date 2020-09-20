@@ -1,10 +1,10 @@
-.popup__close {
+.mobile-menu__close-button {
   position: absolute;
-  width: 40px;
-  height: 40px;
+  max-width: 30px;
+  max-height: 30px;
   padding: 0;
-  right: -34px;
-  top: -34px;
+  right: 30px;
+  top: 35px;
   -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
       transform: rotate(45deg);
@@ -16,15 +16,6 @@
   background-color: transparent;
 }
 
-.popup__close:hover {
+.mobile-menu__close-button:hover {
   opacity: 0.6;
-}
-
-@media (max-width: 400px) {
-  .popup__close {
-    max-width: 30px;
-    max-height: 30px;
-    right: 45%;
-    top: -55px;
-  }
 }

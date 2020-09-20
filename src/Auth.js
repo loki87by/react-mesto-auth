@@ -15,13 +15,7 @@ export const register = (email, password) => {
     } catch(e) {
       return (e)
     }
-  })/*
-  .then((data) => {
-    console.log(data)
-    localStorage.setItem('token', data.token);
-    console.log(data.token)
   })
-  .catch((err) => console.log(err));*/
 }
 
 export const login = (email, password) => {
@@ -52,7 +46,6 @@ export const login = (email, password) => {
     if(data.token) {
       localStorage.setItem('jwt', data.token);
       console.log(data.token)
-      //return data;
     }
   })
   .catch(err => console.log(err))
@@ -72,4 +65,3 @@ export const getContent = (token) => {
     console.log(err);
   })
 }
-

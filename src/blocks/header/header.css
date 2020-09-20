@@ -1,12 +1,21 @@
 @import url('./__logo/header__logo.css');
+@import url('./__mobile-menu/header__mobile-menu.css');
+@import url('./__close-menu/header__close-menu.css');
 @import url('./__info/header__info.css');
 @import url('./__text/header__text.css');
+@import url('./__text/_doubler/header__text_doubler.css');
+@import url('./__button/header__button.css');
 
 .header {
+  position: relative;
   max-width: 880px;
   height: 74px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   margin: auto;
   padding-top: 45px;
   border-bottom: 1px solid #545454;

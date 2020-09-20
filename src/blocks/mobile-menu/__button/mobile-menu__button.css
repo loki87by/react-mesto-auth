@@ -1,0 +1,13 @@
+.mobile-menu__button{
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+  max-height: 22px;
+  color: #A9A9A9;
+  margin-top: 18px;
+  border: none;
+  background-color: #000;
+  padding: 0px;
+  cursor: pointer;
+}

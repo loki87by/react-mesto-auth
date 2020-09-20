@@ -1,0 +1,14 @@
+.header__mobile-menu{
+  display: none;
+  max-width: 24px;
+  max-height: 21px;
+}
+
+@media (max-width: 400px) {
+  .header__mobile-menu{
+    position: absolute;
+    right: 30px;
+    top: 35px;
+    display: block;
+  }
+}

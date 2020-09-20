@@ -7,8 +7,6 @@ function Register(props) {
   const [password, setPassword] = React.useState('');
   const history = useHistory();
 
-  
-
   function handleSubmit(e) {
     e.preventDefault()
     Auth.register(email, password)

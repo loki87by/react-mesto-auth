@@ -1,0 +1,9 @@
+.header__text_doubler{
+  display: none;
+}
+
+@media (max-width: 400px) {
+  .header__text_doubler{
+    display: block;
+  }
+}

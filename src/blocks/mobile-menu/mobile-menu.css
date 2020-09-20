@@ -1,0 +1,14 @@
+@import url('./__text/mobile-menu__text.css');
+@import url('./__button/mobile-menu__button.css');
+
+.mobile-menu{
+  display: none;
+}
+
+@media (max-width: 400px) {
+  .mobile-menu{
+    padding: 40px;
+    text-align: center;
+    border-bottom: 1px solid #545454;
+  }
+}
