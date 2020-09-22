@@ -4,7 +4,7 @@ import Main from './Main';
 import Footer from './Footer';
 import Login from './Login';
 import Register from './Register';
-import * as Auth from '../Auth';
+import * as Auth from '../utils/Auth';
 import EditAvatarPopup from './EditAvatarPopup';
 import EditProfilePopup from './EditProfilePopup';
 import AddPlacePopup from './AddPlacePopup';
@@ -40,6 +40,8 @@ function App() {
   const [infoData, setInfoData] = React.useState({});
   const [headerData, setHeaderData] = React.useState({crossLink: "/signin", linkText: "Вход"});
   const [isMenuOpen, setMenuOpen] = React.useState(false);
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
   const [userData, setUserData] = React.useState({
     email: "",
     _id: ""
@@ -74,16 +76,16 @@ function App() {
     setSaveLoading("Сохранение")
   }
   //*функции содержимого infoTooltip
-  function failed() {
+  function setFailedMessage() {
     setInfoData({text: "Что-то пошло не так! Попробуйте еще раз.", image: errorPic})
   }
-  function passed() {
+  function setPassedMessage() {
     setInfoData({text: "Вы успешно зарегистрировались!", image: accesPic})
   }
-  function enterLink() {
+  function setEnterLink() {
     setHeaderData({crossLink: "/signup", linkText: "Регистрация"})
   }
-  function regLink() {
+  function setRegLink() {
     setHeaderData({crossLink: "/signin", linkText: "Войти"})
   }
 
@@ -190,7 +192,32 @@ function App() {
   }, [loggedIn])
 
   function handleLogin() {
-    setLoggedIn(true);
+    Auth.login({ email, password })
+    .then((data) => {
+      if (data){
+        setEmail('');
+        setPassword('');
+        history.push('/');
+        setLoggedIn(true)
+        return;
+      }
+    }
+    )
+    .catch((err) => console.log(err));
+  }
+  function onRegister() {
+    Auth.register(email, password)
+    .then((res) => {
+      if(res) {
+        history.push('/signin');
+        setPassedMessage()
+        handleInfoTooltip()
+      } else {
+        setFailedMessage()
+        handleInfoTooltip()
+      }
+    })
+    .catch((err) => console.log(err));
   }
   function tokenCheck() {
     if (localStorage.getItem('jwt')) {
@@ -230,7 +257,7 @@ function App() {
         <InfoTooltip text={infoData.text} image={infoData.image} isOpen={isInfoTooltipOpen} onClose={closeAllPopups} onLoad={saveLoader} isLoading={isSaveLoading} />
         <div className="page">
           {loggedIn ? <MobileMenu userData={userData} isOpen={isMenuOpen} signOut={signOut} closeMenu={closeMenu} /> : ''}
-          <Header loggedIn={loggedIn} isMenuOpen={isMenuOpen} openMenu={openMenu} closeMenu={closeMenu} signOut={signOut} setLoggedIn={setLoggedIn} userData={userData} crossLink={headerData.crossLink} linkText={headerData.linkText} enterLink={enterLink} regLink={regLink} />
+          <Header loggedIn={loggedIn} isMenuOpen={isMenuOpen} email={userData.email} openMenu={openMenu} closeMenu={closeMenu} signOut={signOut} setLoggedIn={setLoggedIn} crossLink={headerData.crossLink} linkText={headerData.linkText} setEnterLink={setEnterLink} setRegLink={setRegLink} />
           <main className="content">
             <Switch>
               <ProtectedRoute
@@ -246,13 +273,13 @@ function App() {
                 onCardClick={handleCardClick}
               />
               <Route path="/signup">
-                <Register onShow={handleInfoTooltip} failed={failed} passed={passed} changeLink={enterLink} />
+                <Register onRegister={onRegister} email={email} setEmail={setEmail} password={password} setPassword={setPassword} changeLink={setEnterLink} />
               </Route>
               <Route path="/signin">
-                <Login onLogin={handleLogin} changeLink={regLink} />
+                <Login onLogin={handleLogin} changeLink={setRegLink} email={email} password={password} setPassword={setPassword} setEmail={setEmail} setLoggedIn={setLoggedIn}/>
               </Route>
               <Route>
-                {loggedIn ? <Redirect to="/signin" /> : <Redirect to="/signup" />}
+                {loggedIn ? <Redirect to="/" /> : <Redirect to="/signup" />}
               </Route>
             </Switch>
           </main>

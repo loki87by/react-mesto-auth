@@ -7,9 +7,9 @@ import { Link } from 'react-router-dom';
 function Header(props) {
   function changeLink() {
     if (props.crossLink === "/signin") {
-      props.enterLink()
+      props.setEnterLink()
     } else {
-      props.regLink()
+      props.setRegLink()
     }
   }
   const mobileButton = (
@@ -22,7 +22,7 @@ function Header(props) {
       <img src={logo} className="header__logo" alt="логотип" />
       {props.loggedIn ? mobileButton : <Link to={props.crossLink} onClick={changeLink} className="header__text header__text_doubler">{props.linkText}</Link>}
       <div className="header__info">
-        {props.loggedIn ? <p className="header__text">{props.userData.email}</p> : <Link to={props.crossLink} onClick={changeLink} className="header__text">{props.linkText}</Link>}
+        {props.loggedIn ? <p className="header__text">{props.email}</p> : <Link to={props.crossLink} onClick={changeLink} className="header__text">{props.linkText}</Link>}
         {props.loggedIn ? <button onClick={props.signOut} className="header__button">Выйти</button> : ""}
       </div>
     </header>

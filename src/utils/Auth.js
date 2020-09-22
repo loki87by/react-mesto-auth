@@ -18,7 +18,7 @@ export const register = (email, password) => {
   })
 }
 
-export const login = (email, password) => {
+export const login = ({ email, password }) => {
   return fetch(`${BASE_URL}/signin`, {
     method: 'POST',
     headers: {
@@ -32,20 +32,26 @@ export const login = (email, password) => {
         return res.json();
       }
       if (res.status === 400) {
-        return console.log('не все данные переданы')
+        return Promise.reject(new Error(`Ошибка: ${res.status}`));
       }
       if (res.status === 401) {
-        return console.log('пользователь не найден')
+        return Promise.reject(new Error(`Ошибка: ${res.status}`));
       }
     }
     catch (err) {
       return err;
     }
   })
+  .catch ((err) => {return Promise.reject(err)})
   .then((data) => {
-    if(data.token) {
-      localStorage.setItem('jwt', data.token);
-      console.log(data.token)
+    try{
+      if(data.token) {
+          localStorage.setItem('jwt', data.token);
+      }
+      return data
+    }
+      catch (err){
+        return Promise.reject(err);
     }
   })
   .catch(err => console.log(err))
