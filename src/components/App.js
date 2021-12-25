@@ -18,7 +18,7 @@ import errorPic from '../images/false.svg';
 import MobileMenu from './MobileMenu';
 import '../index.css';
 import {CurrentUserContext} from '../contexts/CurrentUserContext';
-import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
+import { /* HashRouter, (uncomment after gh-pages deploy) */ Route, Switch, Redirect, useHistory } from 'react-router-dom';
   
 
 
@@ -259,7 +259,8 @@ function App() {
           {loggedIn ? <MobileMenu userData={userData} isOpen={isMenuOpen} signOut={signOut} closeMenu={closeMenu} /> : ''}
           <Header loggedIn={loggedIn} isMenuOpen={isMenuOpen} email={userData.email} openMenu={openMenu} closeMenu={closeMenu} signOut={signOut} setLoggedIn={setLoggedIn} crossLink={headerData.crossLink} linkText={headerData.linkText} setEnterLink={setEnterLink} setRegLink={setRegLink} />
           <main className="content">
-            <Switch>
+            {/* <HashRouter> (uncomment after gh-pages deploy) */}
+              <Switch>
               <ProtectedRoute
                 exact path="/"
                 loggedIn={loggedIn}
@@ -282,6 +283,7 @@ function App() {
                 {loggedIn ? <Redirect to="/" /> : <Redirect to="/signup" />}
               </Route>
             </Switch>
+            {/* </ HashRouter> (uncomment after gh-pages deploy) */}
           </main>
           <Footer />
         </div>
